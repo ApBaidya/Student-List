@@ -1,11 +1,12 @@
 /*
 Student List
 Aparajita Baidya
-10.30.2025
+10.31.2025
 
 https://www.youtube.com/watch?v=EgVWWVZ6AEY --> helped me understand iterators
 https://stackoverflow.com/questions/4645705/vector-erase-iterator --> erase iterator
 https://en.cppreference.com/w/cpp/container/vector/pop_back.html --> get rid of last vector stuff
+
 Structs and pointers!
 Type ADD --> create new studant: ask for 1st name, 2nd name, student id, gpa
 Type PRINT --> print out all studants: format (1st name 2nd name, id, gpa)
@@ -29,7 +30,7 @@ struct Student
 };
 
 //declare functions
-void ADD(vector<Student*>*, int& c);
+void ADD(vector<Student*>*, int c);
 void PRINT(vector<Student*>*);
 void DELETE(vector<Student*>*, int i);
   
@@ -79,7 +80,7 @@ int main()
 }
 
 //add
-void ADD(vector<Student*>* stud, int& idCheck)
+void ADD(vector<Student*>* stud, int idCheck)
 {
   //get ready for the cout-cin wall
   Student* s = new Student();
@@ -93,7 +94,7 @@ void ADD(vector<Student*>* stud, int& idCheck)
   cin.ignore(50,'\n');
   cout << endl;
   
-  cout << "ID:" << endl;
+  cout << "ID:" << endl;//if you input an ID of 0, and then input an id that isn't an int, you can never escape the while loop...
   cin >> s -> id;
   cin.ignore(50,'\n');
   cout << endl;
@@ -104,9 +105,9 @@ void ADD(vector<Student*>* stud, int& idCheck)
     {
       if((*it) -> id == s -> id) //if IDs are the same, as again, and set idnum to 0 so it loops to check again
       {
-	idCheck = 0;
+	idCheck = 0; //failed id check
 	cout << "oops, someone has that id! Set it to a different one!" << endl;
-	cin >> s -> id;
+	cin >> s -> id; //ask for new id, while loop will loop once after to check again thanks to idCheck
       }
       else//if there are no matches, exit the loop!
       {
@@ -125,36 +126,40 @@ void ADD(vector<Student*>* stud, int& idCheck)
 }
 
 //print
-
 void PRINT(vector<Student*>* stud)
 {
   for(vector<Student*>::iterator it = stud -> begin(); it != stud -> end(); ++it)
   {
-    //yup. A long long line of dereferencing and cout-ing
-    cout << (*it) -> name1 << ' ' << (*it) -> name2 << ", " << (*it) -> id << ", ";
-    cout << fixed << setprecision(2) << (*it) -> gpa << endl;
+    //yup. A long long line of dereferencing and cout-ing...used setprecision to round 
+    cout << (*it) -> name1 << ' ' << (*it) -> name2 << ", " << (*it) -> id << ", " << fixed << setprecision(2) << (*it) -> gpa << endl;
   }
 }
 
 //delete
-void DELETE(vector<Student*>* stud, int idnum) //the inputed id
+void DELETE(vector<Student*>* stud, int idnum) //idnum = the inputed id
 {
+  /*
+    it seems I don't need this, but I find it neat so I shall keep it as a comment
   //hear me out: this works
-  int i = -1;
-  int i2 = -1;
+  int i = -1; //some int that increases each iteration 
+  int i2 = -1; //the int away from the start of vector
+  */
   //delete based on id, so iterate through vector and find student with correct id
   for(vector<Student*>::iterator it = stud -> begin(); it != stud -> end(); ++it)
   {
-    ++ i;
+    //++ i;
     if((*it) -> id == idnum)
     {
-      i2 = i;
+      //i2 = i; //this is the value I want to delete, so I made note of it
       cout << "Yup yup, I guess it exists.";
-      //stud -> erase(it);
+      stud -> erase(it);
+      return;
     }
   }
+  /*
   if(i2 != -1)
   {
     stud -> erase(stud->begin()+i2);
   }
+  */
 }
