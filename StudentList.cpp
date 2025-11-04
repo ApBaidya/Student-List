@@ -33,7 +33,7 @@ struct Student
 void ADD(vector<Student*>*, int c);
 void PRINT(vector<Student*>*);
 void DELETE(vector<Student*>*, int i);
-  
+void QUIT(vector<Student*>*);  
 int main()
 {
   //make vector for student struct pointer of type...student pointer
@@ -71,14 +71,28 @@ int main()
       DELETE(stud, idnum);
       cout << "done" << endl;
     }
-    else if(strcmp(input, "QUIT") != 0)
+    else if(strcmp(input, "QUIT") == 0)
     {
-      cout << "what.";
+      QUIT(stud);
+      cout << "done";
+    }
+    else
+    {
+      cout << "what" << endl;
     }
   }
   return 0;
 }
 
+//quit get rid of all points
+void QUIT(vector<Student*>* stud)
+{
+  for(vector<Student*>::iterator it = stud -> begin(); it != stud -> end(); ++it)
+  {  
+    delete *it;
+  }
+  stud -> clear();
+}
 //add
 void ADD(vector<Student*>* stud, int idCheck)
 {
@@ -152,6 +166,7 @@ void DELETE(vector<Student*>* stud, int idnum) //idnum = the inputed id
     {
       //i2 = i; //this is the value I want to delete, so I made note of it
       cout << "Yup yup, I guess it exists.";
+      delete *it;
       stud -> erase(it);
       return;
     }
